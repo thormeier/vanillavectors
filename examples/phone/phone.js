@@ -1,8 +1,10 @@
 var inputX = document.getElementById('x');
 var inputY = document.getElementById('y');
+var inputZ = document.getElementById('z');
 
 var xCoordsField = document.getElementById('xCoords');
 var yCoordsField = document.getElementById('yCoords');
+var zCoordsField = document.getElementById('zCoords');
 
 // Some basic vectors to display
 var zeroVector = new Vector(50, 50, 50);
@@ -120,6 +122,11 @@ var phoneRotateXAxisEdge = new Edge(
     new Vector(initialCamX + 100, initialCamY, phoneZPos + (phoneHeight / 2))
 );
 
+var phoneRotateZAxis = new Line(
+    new Vector(initialCamX, initialCamY, phoneZPos + (phoneHeight / 2) + 10),
+    new Vector(initialCamX, initialCamY, phoneZPos + (phoneHeight / 2) - 10)
+);
+
 // Initial painting
 paint(phone);
 
@@ -146,9 +153,11 @@ function paint(phone) {
 function rotatePhone() {
     var xAngle = parseInt(inputX.value);
     var yAngle = parseInt(inputY.value);
+    var zAngle = parseInt(inputZ.value);
 
     xCoordsField.value = xAngle;
     yCoordsField.value = yAngle;
+    zCoordsField.value = zAngle;
 
     var phonePrime = phone;
     if (xAngle != 0) {
@@ -157,6 +166,10 @@ function rotatePhone() {
 
     if (yAngle != 0) {
         phonePrime = phonePrime.rotateAroundLine(phoneRotateYAxis, yAngle);
+    }
+
+    if (zAngle != 0) {
+        phonePrime = phonePrime.rotateAroundLine(phoneRotateZAxis, zAngle);
     }
 
     paint(phonePrime);
