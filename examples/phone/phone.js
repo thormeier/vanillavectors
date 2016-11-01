@@ -174,3 +174,60 @@ function rotatePhone() {
 
     paint(phonePrime);
 }
+
+// Auto-rotate functionality
+var autoRotateInput = document.querySelector('#autorot');
+var isAutoRotating = false;
+var inputs = [
+    {
+        'input': inputX,
+        'back' : false
+    },
+    {
+        'input': inputY,
+        'back' : false
+    },
+    {
+        'input': inputZ,
+        'back' : false
+    }
+];
+function autoRotateSwitch() {
+    if (autoRotateInput.checked) {
+        isAutoRotating = true;
+        autoRotate(1, 30);
+    } else {
+        isAutoRotating = false;
+    }
+}
+
+function autoRotate(degreeStep, interval) {
+    for (var i = 0; i < inputs.length; i++) {
+        var max = inputs[i].input.max;
+        var min = inputs[i].input.min;
+
+        if (inputs[i].back) {
+            if (min < inputs[i].input.value - degreeStep) {
+                inputs[i].input.value = Number(inputs[i].input.value) - degreeStep;
+            } else {
+                inputs[i].input.value = min;
+                inputs[i].back = false;
+            }
+        } else {
+            if (max > Number(inputs[i].input.value) + degreeStep) {
+                inputs[i].input.value = Number(inputs[i].input.value) + degreeStep;
+            } else {
+                inputs[i].input.value = max;
+                inputs[i].back = true;
+            }
+        }
+    }
+
+    rotatePhone();
+
+    if (isAutoRotating) {
+        setTimeout(function () {
+            autoRotate(degreeStep, interval)
+        }, interval);
+    }
+}
