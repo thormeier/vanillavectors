@@ -36,5 +36,3 @@ Plane.prototype.getIntersectionWith = function (line) {
 
     return line.l.times(d).plus(line.l0);
 };
-
-
